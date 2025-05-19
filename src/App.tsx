@@ -15,7 +15,7 @@ function App() {
           <Route path="chat" element={<ChatPage />} />
           <Route path="profile" element={<ProfilePage />} />
         </Route>
-        <Route path="*" element={<Navigate to={"/dasboard"} />} />
+        <Route path="*" element={<Navigate to={"/dashboard"} />} />
       </Routes>
     </BrowserRouter>
   );

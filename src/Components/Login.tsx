@@ -1,17 +1,44 @@
+import { Link, useNavigate } from "react-router-dom";
+import { BE_signIn, BE_signUp } from "../Backend/Queries";
 import Button from "./Button";
 import Input from "./Input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../redux/store";
+import { authDataType } from "../Types";
 
 const Login = () => {
   const [login, setLogin] = useState(true);
+  const [signUpLoading, setSignUpLoading] = useState(false);
+  const [signInLoading, setSignInLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const goTo = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const reset = () => {
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+  };
 
   const handleSignUp = () => {
     const data = { email, password, confirmPassword };
+    auth(data, BE_signUp, setSignUpLoading);
   };
-  const handleSignIn = () => {};
+  const handleSignIn = () => {
+    const data = { email, password, confirmPassword };
+    auth(data, BE_signIn, setSignInLoading);
+  };
+
+  const auth = (
+    data: authDataType,
+    func: any,
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    func(data, setLoading, reset, goTo, dispatch);
+  };
 
   return (
     <div className="w-full md:w-[450px]">
@@ -41,12 +68,20 @@ const Login = () => {
         )}
         {login ? (
           <>
-            <Button text="Login" onClick={handleSignIn} />
+            <Button
+              text="Login"
+              onClick={handleSignIn}
+              loading={signInLoading}
+            />
             <Button text="Register" secondary onClick={() => setLogin(false)} />
           </>
         ) : (
           <>
-            <Button text="Register" onClick={handleSignUp} />
+            <Button
+              text="Register"
+              onClick={handleSignUp}
+              loading={signUpLoading}
+            />
             <Button text="Login" secondary onClick={() => setLogin(true)} />
           </>
         )}

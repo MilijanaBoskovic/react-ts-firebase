@@ -1,11 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
-import { BE_signIn, BE_signUp } from "../Backend/Queries";
+import { BE_signIn, BE_signUp, getStorageUser } from "../Backend/Queries";
 import Button from "./Button";
 import Input from "./Input";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../redux/store";
 import { authDataType } from "../Types";
+import { setUser } from "../redux/userSlice";
 
 const Login = () => {
   const [login, setLogin] = useState(true);
@@ -16,6 +17,16 @@ const Login = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const goTo = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+
+  const user = getStorageUser();
+
+  //for page refresh
+  useEffect(() => {
+    if (user?.id) {
+      dispatch(setUser(user));
+      goTo("/dashboard");
+    }
+  }, []);
 
   const reset = () => {
     setEmail("");

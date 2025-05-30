@@ -28,7 +28,7 @@ const Header = () => {
     } else {
       goTo("/auth");
     }
-  }, []);
+  }, [dispatch, goTo]);
 
   useEffect(() => {
     const page = getCurrentPage();
@@ -52,7 +52,7 @@ const Header = () => {
   };
 
   return (
-    <div className="flex flex-wrap sm:flex-row gap-p items-center justify-between drop-shadow-md bg-gradient-to-r from-myBlue to-myPink px-5 py-5 md:py-2 text-white">
+    <div className=" z-10 flex flex-wrap sm:flex-row gap-p items-center justify-between drop-shadow-md bg-gradient-to-r from-myBlue to-myPink px-5 py-5 md:py-2 text-white">
       <img
         className="w-[70px] drop-shadow-md cursor-pointer"
         src={logo}
@@ -63,17 +63,20 @@ const Header = () => {
           <Icon
             IconName={FiList as React.ComponentType<IconBaseProps>}
             onClick={() => handleGoToPage("list")}
+            reduceOpacityOnHover={false}
           />
         ) : getCurrentPage() === "profile" ? (
           <>
             <Icon
               IconName={FiList as React.ComponentType<IconBaseProps>}
               onClick={() => handleGoToPage("list")}
+              reduceOpacityOnHover={false}
             />
             <Icon
               IconName={BsFillCartFill as React.ComponentType<IconBaseProps>}
               ping={true}
               onClick={() => handleGoToPage("chat")}
+              reduceOpacityOnHover={false}
             />{" "}
           </>
         ) : (
@@ -83,6 +86,7 @@ const Header = () => {
               IconName={BsFillCartFill as React.ComponentType<IconBaseProps>}
               ping={true}
               onClick={() => handleGoToPage("chat")}
+              reduceOpacityOnHover={false}
             />
           </>
         )}
